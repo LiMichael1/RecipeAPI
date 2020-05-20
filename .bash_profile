@@ -1,1 +1,1 @@
-export USERID=${UID} && export GID=${GID}
+export UID=${UID} && export GID=${GID}
