@@ -9,5 +9,23 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app
-    command: >
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+    command: > # make Docker wait for db, make migrations and run dev server
+      sh -c "python manage.py wait_for_db && 
+             python manage.py migrate && 
+             python manage.py runserver 0.0.0.0:8000"
+    environment: # Environment Variables
+      - DB_HOST=db
+      - DB_NAME=app
+      - DB_USER=postgres
+      - DB_PASS=supersecretpassword
+    depends_on:
+      - db # App depend on db to run first 
+  
+  db: 
+    image: postgres:13-alpine
+    environment:  # Environment Variables
+      - POSTGRES_DB=app
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=supersecretpassword   # When Deployed, Encrypt it 
+
+
