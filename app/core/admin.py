@@ -36,8 +36,9 @@ class UserAdmin(BaseUserAdmin):
             'fields' : ('email', 'password1', 'password2')
         }),
     )
-
+# able to view in the admion
 # register UserAdmin class to that model
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Tag)
 admin.site.register(models.Ingredient)
+admin.site.register(models.Recipe)
