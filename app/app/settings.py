@@ -39,9 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_framework.settings',
     'core', # Our created core app folder
     'user', # Our created user app folder
+    'recipe', # Our created recipe app folder
 ]
 
 MIDDLEWARE = [

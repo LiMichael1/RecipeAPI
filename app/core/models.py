@@ -1,7 +1,8 @@
+"""" Defines the database tables """
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
                                                          PermissionsMixin
-
+from django.conf import settings
 
 # build off of default base user manager class
 class UserManager(BaseUserManager):
@@ -45,3 +46,29 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # change username field to equal email
     USERNAME_FIELD = 'email'
+
+
+class Tag(models.Model):
+    """Tag to be used for a recipe"""
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,   # user model is foreign key
+        on_delete=models.CASCADE,   # Delete user => delete the tags
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class Ingredient(models.Model):
+    """Ingredient to be used in a recipe"""
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,   # user model is foreign key 
+        on_delete=models.CASCADE    # Delete user => deletes the ingredient
+    )
+
+    def __str__(self):
+        return self.name
+
+    
