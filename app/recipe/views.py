@@ -70,6 +70,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             recipe,
             data=request.data
         )
+        print('\n', request.data, '\n')
 
         if serializer.is_valid():
             serializer.save()

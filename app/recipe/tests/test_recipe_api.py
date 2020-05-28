@@ -228,11 +228,8 @@ class RecipeImageUploadTests(TestCase):
         with tempfile.NamedTemporaryFile(suffix='.jpg') as ntf:
             img = Image.new('RGB', (10, 10))
             img.save(ntf, format='JPEG')
-            print(img)
             ntf.seek(0)
             res = self.client.post(url, {'image': ntf}, format='multipart')
-
-        print('\n', res.data, '\n')
         
         self.recipe.refresh_from_db()
         self.assertEqual(res.status_code, status.HTTP_200_OK)
