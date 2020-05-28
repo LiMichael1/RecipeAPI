@@ -45,7 +45,8 @@ class PublicUserApiTests(TestCase):
 
     def test_user_exists(self):
         """Test creating a user that already exists fails"""
-        payload = {'email': 'test@gmail.com', 'password': 'testpass', 'name': 'Test'}
+        payload = {'email': 'test@gmail.com', 'password': 'testpass', 
+                   'name': 'Test'}
         create_user(**payload)
 
         res = self.client.post(CREATE_USER_URL, payload)
@@ -65,12 +66,11 @@ class PublicUserApiTests(TestCase):
         self.assertFalse(user_exists)
 
     """TOKEN TESTING"""
-
     # Able to create token for a user? 
     def test_create_token_for_user(self):
         """Test that a token is created for the user"""
         payload = {'email': 'test@gmail.com', 'password': 'testpass'}
-        
+       
         create_user(**payload)
         res = self.client.post(TOKEN_URL, payload)
 
@@ -84,7 +84,7 @@ class PublicUserApiTests(TestCase):
         """Test that token is not created if invalid credentials are given"""
         create_user(email='test@gmail.com', password='testpass')
         # Incorrect password entered
-        payload = {'email': 'test@gmail.com', 'password': 'wrong'} 
+        payload = {'email': 'test@gmail.com', 'password': 'wrong'}
         res = self.client.post(TOKEN_URL, payload)
 
         # No Token and 400 BAD REQUEST returned
@@ -115,10 +115,10 @@ class PublicUserApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    
+
 class PrivateUserApiTests(TestCase):
     """Test API requests that require authentication"""
-    
+
     def setUp(self):
         self.user = create_user(
             email='test@gmail.com',
@@ -128,7 +128,7 @@ class PrivateUserApiTests(TestCase):
         self.client = APIClient()
         # simulate authenticated request
         self.client.force_authenticate(user=self.user)
-    
+
     def test_retrieve_profile_success(self):
         """Test retrieving profile for logged in user"""
         res = self.client.get(ME_URL)
@@ -158,4 +158,3 @@ class PrivateUserApiTests(TestCase):
         self.assertTrue(self.user.check_password(payload['password']))
         # Did we get back a 200 OK request in the response?
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-    
